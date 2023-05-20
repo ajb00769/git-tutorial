@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Triangle Area Solver</title>
+    <style>
+      form {
+        display: flex;
+        flex-direction: column;
+        width: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <p>Enter the length of the 3 sides of the triangle:</p>
+      <form>
+        <input type="number" id="side1" placeholder="Side 1" />
+        <input type="number" id="side2" placeholder="Side 2" />
+        <input type="number" id="side3" placeholder="Side 3" />
+        <button type="button" onclick="calculateArea()">Calculate!</button>
+      </form>
+    </div>
+    <p id="result"></p>
+    <script>
+      function heronFormula(a, b, c) {
+        const s = (a + b + c) / 2;
+        const heron = Math.sqrt(s * (s - a) * (s - b) * (s - c));
+        return heron;
+      }
+
+      function calculateArea() {
+        const a = parseFloat(document.getElementById("side1").value);
+        const b = parseFloat(document.getElementById("side2").value);
+        const c = parseFloat(document.getElementById("side3").value);
+
+        const area = heronFormula(a, b, c);
+        document.getElementById("result").innerHTML =
+          "The area if your triangle is " + area.toFixed(4);
+      }
+    </script>
+  </body>
+</html>
