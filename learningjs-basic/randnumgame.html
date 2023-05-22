@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Random Number Guessing Game</title>
+  </head>
+  <body onload="randLoader()">
+    <div>
+      <p id="randLoadCheck"></p>
+      <p id="returnResult"></p>
+    </div>
+    <script>
+      const generateInt = () => {
+        return Math.ceil(Math.random() * 10);
+      };
+
+      let randomNum = generateInt();
+
+      function createElements() {
+        const container = document.getElementById("randLoadCheck");
+
+        const successMessage = document.createElement("p");
+        successMessage.textContent = "Successfully loaded a random integer.";
+        container.appendChild(successMessage);
+
+        const instruction = document.createElement("p");
+        instruction.textContent =
+          "Please try to guess the integer between 1-10:";
+        container.appendChild(instruction);
+
+        const select = document.createElement("select");
+        select.id = "numChoices";
+        const defaultOption = new Option("Select a Number", "", true, true);
+        defaultOption.hidden = true;
+        defaultOption.disabled = true;
+        select.add(defaultOption);
+        container.appendChild(select);
+
+        const submitButton = document.createElement("button");
+        submitButton.type = "button";
+        submitButton.addEventListener("click", submitGuess);
+        submitButton.textContent = "Submit Guess!";
+
+        container.appendChild(submitButton);
+      }
+
+      function randLoader() {
+        if (randomNum) {
+          createElements();
+          addNums();
+        } else {
+          document.getElementById("randLoadCheck").innerHTML =
+            "Error loading random number.";
+        }
+      }
+
+      function addNums() {
+        const opts = document.getElementById("numChoices");
+        for (let i = 1; i <= 10; i++) {
+          opts.options[opts.options.length] = new Option(i);
+        }
+      }
+
+      function checkMatch(generated, userInput) {
+        const resultSection = document.getElementById("returnResult");
+
+        if (generated === userInput) {
+          resultSection.innerHTML = `Correct guess! The number was ${randomNum}`;
+        } else {
+          resultSection.innerHTML = `Incorrect! The number was ${randomNum}`;
+        }
+      }
+
+      function submitGuess() {
+        const userSubmit = document.getElementById("numChoices").value;
+        checkMatch(randomNum, Number(userSubmit));
+        randomNum = generateInt();
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Day vs Date Checker</title>
+  </head>
+  <body>
+    <h1>Day vs Date Checker</h1>
+    <div>
+      <form id="myForm">
+        <p>
+          Select a day of the week:
+          <select id="dayofweek">
+            <option selected disabled hidden>Day</option>
+          </select>
+        </p>
+        <p>Select a date: <input type="date" id="dateinput" /></p>
+        <button type="button" onclick="isDayDate2050()">Check</button>
+      </form>
+      <p id="result"></p>
+    </div>
+    <script>
+      function getDayName(dayNumber) {
+        const date = new Date();
+        date.setDate(date.getDate() - date.getDay() + dayNumber);
+        return date.toLocaleDateString("en", { weekday: "long" });
+      }
+
+      function addOpts() {
+        const dayOfWeek = document.getElementById("dayofweek");
+        for (let i = 1; i <= 7; i++) {
+          dayOfWeek.options[dayOfWeek.options.length] = new Option(
+            getDayName(i)
+          );
+        }
+      }
+
+      addOpts();
+
+      function isDayDate2050() {
+        const day = document.getElementById("dayofweek");
+        const dateSelected = document.getElementById("dateinput").value;
+        const dateWithoutYr = dateSelected.substring(5);
+        const dateElems = dateWithoutYr.split("-");
+
+        let yearsTrue = [];
+
+        for (let i = 2014; i <= 2050; i++) {
+          let dateString = `${i}-${dateElems[0]}-${dateElems[1]}`;
+          let dateObj = new Date(dateString);
+          let dayIndex = dateObj.getDay();
+          let getWkDay = getDayName(dayIndex);
+
+          if (day.value === getWkDay) {
+            yearsTrue.push(i);
+          }
+        }
+
+        const monthNum = parseInt(dateElems[0]);
+        const monthDate = new Date();
+        monthDate.setMonth(monthNum - 1);
+        const monthFormat = new Intl.DateTimeFormat("en", { month: "long" });
+        const monthName = monthFormat.format(monthDate);
+
+        document.getElementById("result").innerHTML = `${monthName} ${
+          dateElems[1]
+        } is ${day.value} for the years ${yearsTrue.join(", ")}.`;
+      }
+    </script>
+  </body>
+</html>

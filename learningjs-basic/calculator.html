@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+      }
+
+      .keypad-wrapper {
+        display: flex;
+      }
+      .numpad-section > p > button {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+      }
+
+      .equals-button {
+        width: 208px;
+        height: 50px;
+        font-size: 20px;
+      }
+
+      #calc {
+        display: flex;
+        flex-direction: column;
+        padding-left: 25%;
+      }
+
+      #operations {
+        padding-left: 3px;
+      }
+
+      #calc-display {
+        width: 205px;
+        height: 50px;
+        border-radius: 5px;
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="maindiv">
+      <h1>Welcome to My Online Calculator!</h1>
+      <form id="calc">
+        <input id="calc-display" type="number" />
+        <div class="keypad-wrapper">
+          <div id="numpad" class="numpad-section">
+            <p>
+              <button
+                type="button"
+                value="7"
+                onclick="buttonToInput(this.value)"
+              >
+                7
+              </button>
+              <button
+                type="button"
+                value="8"
+                onclick="buttonToInput(this.value)"
+              >
+                8
+              </button>
+              <button
+                type="button"
+                value="9"
+                onclick="buttonToInput(this.value)"
+              >
+                9
+              </button>
+            </p>
+            <p>
+              <button
+                type="button"
+                value="4"
+                onclick="buttonToInput(this.value)"
+              >
+                4
+              </button>
+              <button
+                type="button"
+                value="5"
+                onclick="buttonToInput(this.value)"
+              >
+                5
+              </button>
+              <button
+                type="button"
+                value="6"
+                onclick="buttonToInput(this.value)"
+              >
+                6
+              </button>
+            </p>
+            <p>
+              <button
+                type="button"
+                value="1"
+                onclick="buttonToInput(this.value)"
+              >
+                1
+              </button>
+              <button
+                type="button"
+                value="2"
+                onclick="buttonToInput(this.value)"
+              >
+                2
+              </button>
+              <button
+                type="button"
+                value="3"
+                onclick="buttonToInput(this.value)"
+              >
+                3
+              </button>
+            </p>
+            <p>
+              <button type="button" onclick="clearInput()">C</button>
+              <button
+                type="button"
+                value="0"
+                onclick="buttonToInput(this.value)"
+              >
+                0
+              </button>
+              <button
+                type="button"
+                value="sqrt"
+                onclick="operation(this.value)"
+              >
+                √
+              </button>
+            </p>
+          </div>
+          <div id="operations" class="numpad-section">
+            <p>
+              <button type="button" value="*" onclick="operation(this.value)">
+                ×
+              </button>
+            </p>
+            <p>
+              <button type="button" value="-" onclick="operation(this.value)">
+                -
+              </button>
+            </p>
+            <p>
+              <button type="button" value="+" onclick="operation(this.value)">
+                +
+              </button>
+            </p>
+            <p>
+              <button type="button" value="/" onclick="operation(this.value)">
+                ÷
+              </button>
+            </p>
+          </div>
+        </div>
+        <div id="equals">
+          <button
+            type="button"
+            class="equals-button"
+            value="="
+            onclick="operation(this.value)"
+          >
+            =
+          </button>
+        </div>
+      </form>
+    </div>
+    <script>
+      function buttonToInput(value) {
+        const buttonPress = document.getElementById("calc-display");
+        buttonPress.value += value;
+      }
+
+      function clearInput() {
+        const calcDisplay = document.getElementById("calc-display");
+        calcDisplay.value = "";
+      }
+
+      let currentOperation = [];
+
+      /* still need to implement an input checking mechanism when someone presses and operation first without any input OR if they */
+
+      function operation(operator) {
+        const calcDisplay = document.getElementById("calc-display");
+        const getOperand = parseFloat(
+          document.getElementById("calc-display").value
+        );
+        currentOperation.push(getOperand);
+
+        if (operator === "sqrt") {
+          let result = Math.sqrt(currentOperation[0]);
+          calcDisplay.value = result;
+          currentOperation = [];
+        } else if (operator !== "=") {
+          currentOperation.push(operator);
+          clearInput();
+        } else {
+          let result = doMath(
+            currentOperation[0],
+            currentOperation[1],
+            currentOperation[2]
+          );
+          calcDisplay.value = result;
+          currentOperation = [];
+        }
+      }
+
+      function doMath(operand1, operator, operand2) {
+        let result;
+        switch (operator) {
+          case "+":
+            result = operand1 + operand2;
+            break;
+          case "-":
+            result = operand1 - operand2;
+            break;
+          case "*":
+            result = operand1 * operand2;
+            break;
+          case "/":
+            result = operand1 / operand2;
+            break;
+          default:
+            console.error("Invalid operator.");
+        }
+
+        return result;
+      }
+    </script>
+  </body>
+</html>

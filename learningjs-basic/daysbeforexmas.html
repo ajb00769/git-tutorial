@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Days Before Christmas!</title>
+  </head>
+  <body>
+    <div id="maindiv"></div>
+    <script>
+      const currentDate = new Date();
+      const currentYear = new Date().getFullYear();
+      const christmasDay = new Date(currentYear, 11, 25);
+      const dateFormatter = new Intl.DateTimeFormat("en", {
+        month: "long",
+        day: "2-digit",
+        year: "numeric",
+      });
+
+      function createElements() {
+        const container = document.getElementById("maindiv");
+
+        const today = document.createElement("p");
+        today.textContent = `Today is ${dateFormatter.format(currentDate)}`;
+        container.appendChild(today);
+
+        const daysUntil = document.createElement("p");
+        daysUntil.textContent = `Days until Christmas ${dateFormatter.format(
+          christmasDay
+        )}`;
+        container.appendChild(daysUntil);
+
+        const daysUntilCount = document.createElement("h1");
+        container.appendChild(daysUntilCount);
+
+        function liveCountdown() {
+          const currentDate = new Date();
+          const intDaysUntil = Math.abs(christmasDay - currentDate);
+          const differenceInSeconds = intDaysUntil / 1000;
+          const differenceInMinutes = differenceInSeconds / 60;
+          const differenceInHours = differenceInMinutes / 60;
+          const differenceInDays = differenceInHours / 24;
+          const displayDays = Math.floor(differenceInDays);
+          const displayHours = Math.floor(differenceInHours % 24);
+          const displayMinutes = Math.floor(differenceInMinutes % 60);
+          const displaySeconds = Math.floor(differenceInSeconds % 60);
+
+          daysUntilCount.textContent = `${displayDays} days ${displayHours} hours ${displayMinutes} minutes ${displaySeconds} seconds`;
+        }
+
+        liveCountdown();
+        setInterval(liveCountdown, 1000);
+      }
+
+      createElements();
+    </script>
+  </body>
+</html>
