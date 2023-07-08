@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // ABOUT: for..of loops -- iterates through the array assigning the current value into the variable before 'of'
+      const list = ["a", "b", "c"];
+
+      for (const value of list) {
+        console.log(value);
+      }
+
+      // ABOUT: arrow functions - the function itself is anonymous so you don't need to name the function but you need to assign its value to a variable
+      let getData = (item = "default", qty = 0) => {
+        console.log("item is " + item + " and qty is " + qty);
+      };
+      /* const getData = (item = "default", qty = 0) =>
+            console.log("item is " + item + " and qty is " + qty);
+      comment above is also a valid implementation of an arrow function, if the function is a one liner you can omit the curly braces.
+
+      const getData = singleParameter => console.log(singleParameter);
+      if using only a single parameter all parentheses can be omitted.
+      */
+      getData("potato", 5);
+      getData();
+
+      // ABOUT: constructors, need to use prototype to add functions into constructors
+      function Person(name, age, height) {
+        this.name = name;
+        this.age = age;
+        this.height = height;
+      }
+
+      Person.prototype.introduction = function () {
+        console.log(
+          `Hi, my name is ${this.name}. I am ${this.age} years old and I am ${this.height}cm tall.`
+        );
+      };
+
+      const person1 = new Person("Jared", 27, 163);
+      person1.introduction();
+
+      // ABOUT: classes, you can add functions inside the class without having to do prototype like constructors
+      class PersonClass {
+        constructor(name, age, height) {
+          this.name = name;
+          this.age = age;
+          this.height = height;
+        }
+
+        introduce() {
+          console.log(
+            `Hi, my name is ${this.name}. I am ${this.age} years old and I am ${this.height}cm tall.`
+          );
+        }
+      }
+
+      const person2 = new PersonClass("Carl", 29, 172);
+      person2.introduce();
+
+      /* TODO: create a simple text-based RPG using JS classes and constructors
+            - include ability to create multiple characters to add in your party with individual names, stats, etc
+            - make items using classes */
+
+      class Programmer extends PersonClass {
+        introduce() {
+          console.log(
+            `${this.name}, ${this.age}, is a programmer that's ${this.height}cm tall.`
+          );
+        }
+      }
+
+      const person3 = new Programmer("Tony", 24, 168);
+      setTimeout(new Programmer("mark", 12, 64).introduce(), 3000);
+    </script>
+  </body>
+</html>
