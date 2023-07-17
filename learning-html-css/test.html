@@ -75,7 +75,21 @@
       }
 
       const person3 = new Programmer("Tony", 24, 168);
-      setTimeout(new Programmer("mark", 12, 64).introduce(), 3000);
+      setTimeout(() => {
+        new Programmer("mark", 12, 64).introduce();
+      }, 3000);
+
+      // setTimeout always needs the function to be a callback function if you use ()
+      // you can just type in the name of the function without the () if the function doesn't take in any parameters
+      // if it takes in parameters you must use an arrow function for it to use the timeout, otherwise the function will execute immediately
+
+      function test(input) {
+        console.log(`${input}`);
+      }
+
+      setTimeout(() => {
+        test("this is a test");
+      }, 4000);
     </script>
   </body>
 </html>

@@ -13,7 +13,7 @@ console.log(`Today is: ${dayFormatter}.`);
 console.log(`The date today is: ${dateFormatter}`);
 console.log(`Current time is: ${timeFormatter}`);
 
-const prependZero = (n) => (n < 10 ? "0" + n : "" + n);
+const prependZero = (n) => (n < 10 ? "0" + n : n);
 const day = date.getDate();
 const month = prependZero(date.getMonth()); // returns a number but js auto converts it into a string using the prependZero function even without writing the logic to do the conversion
 const year = date.getFullYear();
