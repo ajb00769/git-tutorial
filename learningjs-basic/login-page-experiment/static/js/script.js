@@ -1,21 +1,29 @@
-document.addEventListener("DOMContentLoaded", function () {
-  var form = document.querySelector("#login-form");
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
-    var username = form.querySelector("#username").value;
-    var password = form.querySelector("#password").value;
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/login");
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onload = function () {
-      if (xhr.status === 200) {
+const form = document.querySelector("#login-form");
+
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+  const username = form.querySelector("#username").value;
+  const password = form.querySelector("#password").value;
+  
+  fetch("/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ username: username, password: password })
+  })
+    .then(function (response) {
+      if (response.ok) {
         window.location.href = "/";
       } else {
-        var error = JSON.parse(xhr.responseText).message;
-        var errorMessage = form.querySelector("#error-message");
-        errorMessage.textContent = error;
+        return response.json();
       }
-    };
-    xhr.send(JSON.stringify({ username: username, password: password }));
-  });
+    })
+    .then(function (data) {
+      const errorMessage = form.querySelector("#error-message");
+      errorMessage.textContent = data.message;
+    })
+    .catch(function (error) {
+      console.error("Error:", error);
+    });
 });
